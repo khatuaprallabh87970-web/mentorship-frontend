@@ -41,7 +41,7 @@ export default function SessionPage() {
 
     if (peerConnection.current) return;
 
-    const newSocket = io("http://localhost:5000");
+    const newSocket = io("https://mentorship-backend-f22x.onrender.com");
     setSocket(newSocket);
 
     newSocket.emit("join-session", id);

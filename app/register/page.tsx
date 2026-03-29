@@ -10,7 +10,7 @@ export default function Register() {
 
   const handleRegister = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/auth/signup", {
+    const res = await fetch("https://mentorship-backend-f22x.onrender.com/api/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
