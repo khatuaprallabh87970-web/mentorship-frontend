@@ -114,6 +114,11 @@ export default function SessionPage() {
       await pc.addIceCandidate(candidate);
     });
 
+    // 🔥 AUTO START CALL AFTER JOIN
+setTimeout(() => {
+  startCall();
+}, 2000);
+
     return () => {
       newSocket.disconnect();
       localStreamRef.current?.getTracks().forEach((track) => track.stop());
@@ -244,14 +249,27 @@ export default function SessionPage() {
         <div className="p-3 border-b border-gray-800">
           <h3 className="text-gray-400 mb-2">Video</h3>
 
-          <div className="bg-black rounded-xl h-40 flex items-center justify-center">
-            <video
-              ref={remoteVideoRef}
-              autoPlay
-              playsInline
-              className="w-full h-full object-cover rounded-xl"
-            />
-          </div>
+{/* 🔥 LOCAL VIDEO (YOU) */}
+<div className="bg-black rounded-xl h-40 mb-2">
+  <video
+    ref={localVideoRef}
+    autoPlay
+    muted
+    playsInline
+    className="w-full h-full object-cover rounded-xl"
+  />
+</div>
+
+{/* 🔥 REMOTE VIDEO (OTHER USER) */}
+<div className="bg-black rounded-xl h-40 flex items-center justify-center">
+  <video
+    ref={remoteVideoRef}
+    autoPlay
+    playsInline
+    onLoadedMetadata={(e) => e.currentTarget.play()}
+    className="w-full h-full object-cover rounded-xl"
+  />
+</div>
 
           <div className="flex justify-center gap-3 mt-3">
             <button onClick={startCall} className="bg-green-600 hover:bg-green-700 p-2 rounded-full">

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState(""); 
   const [password, setPassword] = useState("");
   const router = useRouter();
 
@@ -14,20 +14,18 @@ export default function Login() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }), 
     });
 
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data.message);
+      alert(data.error || "Login failed");
       return;
     }
 
-    // save username
-    localStorage.setItem("username", data.username);
+    localStorage.setItem("user", JSON.stringify(data.user)); // 
 
-    // go to session
     router.push("/session/test123");
   };
 
@@ -37,9 +35,9 @@ export default function Login() {
         <h2 className="mb-4 text-lg">Login</h2>
 
         <input
-          placeholder="Username"
+          placeholder="Email"
           className="w-full mb-2 p-2 bg-gray-800 rounded"
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
